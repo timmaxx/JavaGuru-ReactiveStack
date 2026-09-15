@@ -25,6 +25,7 @@ public class ReactiveDemoController {
                 .log()
                 .subscribe();
         System.out.println("end");
+        Thread.sleep(500);
     }
 
 }
