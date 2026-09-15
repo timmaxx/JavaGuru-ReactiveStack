@@ -15,17 +15,17 @@ public class ReactiveDemoController {
     }
 
     private Flux<String> getItemsFromDatasource() {
-        return Flux.just("Java", "Guru", "Dot","BY"); //Publisher
+        return Flux.just("Java", "Guru", "Dot", "BY"); //Publisher
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    static void main() throws InterruptedException {
         System.out.println("start");
         new ReactiveDemoController().getItems()
                 .delayElements(Duration.ofMillis(100))
-                .log()
+                .doOnNext(x -> System.out.println("next " + x +
+                        " thread=" + Thread.currentThread().getName()))
                 .subscribe();
         System.out.println("end");
         Thread.sleep(500);
     }
-
 }
