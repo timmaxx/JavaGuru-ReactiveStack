@@ -1,0 +1,21 @@
+#version: '3.8'
+
+name: java_guru_reactive_java_postgresql_data_users
+
+services:
+  db:
+    image: postgres:16
+    container_name: java_guru_reactive_java_postgresql_data_users
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  db-data:
+    name: "java_guru_reactive_java_postgresql_data_db_users"
