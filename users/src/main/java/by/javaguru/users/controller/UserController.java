@@ -29,4 +29,16 @@ public class UserController {
                         .body(userDto));
     }
 
+    @GetMapping("/{userId}")
+    public Mono<UserDto> getUser(
+            // There is no point in using Mono<UUID> here, as processing UUID, String, and Integer types won't take much time.
+            // So, let's use a synchronous call.
+            @PathVariable UUID userId) {
+        return Mono.just(new UserDto(
+                userId,
+                "Андрей",
+                "Борисов",
+                "javaguru.by@gmail.com"
+        ));
+    }
 }

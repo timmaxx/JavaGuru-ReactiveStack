@@ -109,6 +109,24 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/771008fa-32be-452c-a925-12dc12aa2f43",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"771008fa-32be-452c-a925-12dc12aa2f43"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
