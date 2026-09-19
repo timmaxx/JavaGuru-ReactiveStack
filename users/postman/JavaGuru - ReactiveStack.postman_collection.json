@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0260546f-4506-4128-b98d-b83d1ed493de",
+		"_postman_id": "201c6689-3f97-4ab3-beef-1db27d7a0fee",
 		"name": "JavaGuru - ReactiveStack",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "45692749"
@@ -39,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Андрей\",\r\n    \"lastName\" : \"Борисов\",\r\n    \"email\" : \"javaguru.by@gmail.com\",\r\n    \"password\" : \"qwertyuiop\"\r\n}",
+					"raw": "{\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -65,7 +65,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Андрей\",\r\n    \"lastName\" : \"Борисов\",\r\n    \"email\" : \"javaguru.by@gmail.com\",\r\n    \"password\" : \"qwertyuiop\"\r\n}",
+					"raw": "{\r\n    \"firstName\" : \"А\",\r\n    \"lastName\" : \"Б\",\r\n    \"email\" : \"javaguru.by@gmailcom\",\r\n    \"password\" : \"qwertyu\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,33 +91,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Андрей\",\r\n    \"lastName\" : \"Борисов\",\r\n    \"email\" : \"javaguru.by@gmail.com\",\r\n    \"password\" : \"qwertyuiop\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/users",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create User with invalid validation data 3",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"firstName\" : \"Андрей\",\r\n    \"lastName\" : \"Борисов\",\r\n    \"email\" : \"javaguru.by@gmail.com\",\r\n    \"password\" : \"qwertyuiop\"\r\n}",
+					"raw": "{\r\n    \"firstName\" : \"123456789012345678901234567890123456789012345678901\",\r\n    \"lastName\" : \"123456789012345678901234567890123456789012345678901\",\r\n    \"email\" : \"javaguru.bygmail.com\",\r\n    \"password\" : \"1234567890123456789012345678901\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
