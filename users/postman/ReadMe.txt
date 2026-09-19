@@ -1,3 +1,5 @@
 The files in this directory are used to demonstrate working with Postman.
 
-All requests will succeed, as there is no validation.
+"Create User" request will be 201 Created.
+"Create User with invalid validation data ..." request will be 400 Bad Request.
+And it is good!
