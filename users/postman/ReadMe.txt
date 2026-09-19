@@ -6,3 +6,6 @@ And it is good!
 
 "Get User" request will be 200 OK.
 And it is good!
+
+"Get Users" request will be 200 OK.
+And it is good!

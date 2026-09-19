@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -41,4 +42,14 @@ public class UserController {
                 "javaguru.by@gmail.com"
         ));
     }
+
+    @GetMapping
+    public Flux<UserDto> getUsers() {
+        return Flux.just(
+                new UserDto(UUID.randomUUID(), "Андрей", "Борисов", "javaguru.by@gmail.com"),
+                new UserDto(UUID.randomUUID(), "Алексей", "Борисов", "javaguru.by@gmail.com"),
+                new UserDto(UUID.randomUUID(), "Сергей", "Борисов", "javaguru.by@gmail.com")
+        );
+    }
+
 }
