@@ -19,22 +19,19 @@ public class UserController {
     @PostMapping
     public Mono<ResponseEntity<UserDto>> createUser(@RequestBody @Valid Mono<CreateUserDto> createUserDto) {
 
-        return createUserDto.map(request -> new UserDto(UUID.randomUUID(),
+        return createUserDto.map( request -> new UserDto(UUID.randomUUID(),
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail()))
-                .log()
                 .map(userDto -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .location(URI.create("/users/" + userDto.getId()))
-                        .body(userDto));
+                        .body(userDto)
+                );
     }
 
     @GetMapping("/{userId}")
-    public Mono<UserDto> getUser(
-            // There is no point in using Mono<UUID> here, as processing UUID, String, and Integer types won't take much time.
-            // So, let's use a synchronous call.
-            @PathVariable UUID userId) {
+    public Mono<UserDto> getUser(@PathVariable UUID userId) {
         return Mono.just(new UserDto(
                 userId,
                 "Андрей",

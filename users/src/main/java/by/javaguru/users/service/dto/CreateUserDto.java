@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-//  A DTO class used when creating the entity.
-//  It does not contain an `Id` field, as the ID will be generated upon entity creation.
 public class CreateUserDto {
 
     @NotBlank(message = "Имя обязательно для заполнения")
