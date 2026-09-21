@@ -12,8 +12,14 @@ import java.util.UUID;
 //  Instead, we use @Getter and @Setter.
 @Getter
 @Setter
+//  This annotation allows creating an instance as follows:
+//  UserEntity ue1 = new UserEntity();
 @NoArgsConstructor
+//  This annotation allows creating an instance as follows:
+//  UserEntity ue2 = new UserEntity(UUID.randomUUID(),"John", "Doe", "some@email.org", "qwerty");
 @AllArgsConstructor
+//  This annotation allows creating an instance as follows:
+//  UserEntity ue3 = UserEntity.builder().firstName("John").lastName("Doe").email("").password("qwerty").build();
 @Builder
 //  We do not use the @Entity annotation because this is a reactive project and the class utilizes the R2DBC library.
 //  R2DBC is not at all the same thing as JPA/Hibernate.
