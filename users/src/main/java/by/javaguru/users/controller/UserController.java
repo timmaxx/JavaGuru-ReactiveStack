@@ -1,8 +1,10 @@
 package by.javaguru.users.controller;
 
+import by.javaguru.users.service.UserService;
 import by.javaguru.users.service.dto.CreateUserDto;
 import by.javaguru.users.service.dto.UserDto;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +15,16 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
+
+    private final UserService userService;
 
     @PostMapping
     public Mono<ResponseEntity<UserDto>> createUser(@RequestBody @Valid Mono<CreateUserDto> createUserDto) {
 
-        return createUserDto.map( request -> new UserDto(UUID.randomUUID(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail()))
+        return userService.createUser(createUserDto)
                 .map(userDto -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .location(URI.create("/users/" + userDto.getId()))
