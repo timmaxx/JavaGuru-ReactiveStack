@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 // To inject class fields via the constructor.
 @RequiredArgsConstructor
@@ -27,6 +29,12 @@ public class UserServiceImpl implements UserService {
                 //  If `map` were used here, the result would be a `Mono<Mono<UserEntity>>`.
                 //  Using `flatMap` will return a `Mono<UserEntity>`.
                 .flatMap(userRepository::save)
+                .mapNotNull(userMapper::userEntityToUserDto);
+    }
+
+    @Override
+    public Mono<UserDto> getUserById(UUID id) {
+        return userRepository.findById(id)
                 .mapNotNull(userMapper::userEntityToUserDto);
     }
 
