@@ -17,7 +17,8 @@ public class CreateUserDto {
     private String lastName;
 
     @NotBlank(message = "Email не может быть пустым")
-    @Email
+    @Email(message = "Email должно иметь формат адреса электронной почты")
+    //  Original message (if message is missing) is "должно иметь формат адреса электронной почты".
     private String email;
 
     @NotBlank(message = "Пароль не может быть пустым")
