@@ -36,9 +36,7 @@ public class UserController {
     public Mono<ResponseEntity <UserDto>> getUser(@PathVariable UUID userId) {
 
         return userService.getUserById(userId)
-                //  In the event that a non-empty Mono is received
                 .map(userDto -> ResponseEntity.status(HttpStatus.OK).body(userDto))
-                //  In the event that an empty Mono is received
                 .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build()));
     }
 
