@@ -35,11 +35,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Flux<UserDto> findAll(int page, int limit) {
+    public Flux<UserDto> findAll(int page, int limit, String email) {
         Pageable pageable = PageRequest.of(page, limit);
 
-        return userRepository.findAllBy(pageable)
-                .map(userMapper::userEntityToUserDto);
+        return
+                //  Create Mono with email if email is not null, create Mono.empty() if email is null.
+                Mono.justOrEmpty(email)
+                        .map(String::trim)
+                        //  If email blank create Mono.empty(). Or create Mono.
+                        .filter(s -> !s.isBlank())
+                        //  Select from DB with conditional and return Flux<UserEntity>.
+                        .flatMapMany(e -> userRepository.findAllByEmailContainingIgnoreCase(e, pageable))
+                        //  Only for if previous result was empty makes select from DB without any conditional.
+                        .switchIfEmpty(userRepository.findAllBy(pageable))
+                        //  Map to UserDto.
+                        .map(userMapper::userEntityToUserDto);
     }
 
 }

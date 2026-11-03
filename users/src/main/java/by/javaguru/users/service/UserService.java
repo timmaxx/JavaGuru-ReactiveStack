@@ -13,6 +13,6 @@ public interface UserService {
 
     Mono<UserDto> getUserById(UUID id);
 
-    Flux<UserDto> findAll(int page, int limit);
+    Flux<UserDto> findAll(int page, int limit, String email);
 
 }
