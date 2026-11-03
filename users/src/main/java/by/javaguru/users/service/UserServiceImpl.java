@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public  Flux<UserDto> findAllByEmailContainingIgnoreCase(String email, int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
 
-        return userRepository.findAllByEmailContainingIgnoreCase(email, pageable)
+        return userRepository.findAllByEmailContainingIgnoreCase(email.trim(), pageable)
                 .map(userMapper::userEntityToUserDto);
     }
 
