@@ -46,8 +46,6 @@ public class UserServiceImpl implements UserService {
                         .filter(s -> !s.isBlank())
                         //  Select from DB with conditional and return Flux<UserEntity>.
                         .flatMapMany(e -> userRepository.findAllByEmailContainingIgnoreCase(e, pageable))
-                        //  Only for if previous result was empty makes select from DB without any conditional.
-                        .switchIfEmpty(userRepository.findAllBy(pageable))
                         //  Map to UserDto.
                         .map(userMapper::userEntityToUserDto);
     }
