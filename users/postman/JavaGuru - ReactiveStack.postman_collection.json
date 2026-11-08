@@ -204,6 +204,35 @@
 					"header": null,
 					"cookie": [],
 					"body": null
+				},
+				{
+					"name": "Create User 6",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\" : \"Андрей\",\r\n    \"lastName\" : \"Борисов\",\r\n    \"email\" : \"javaguru6.by@gmail.com\",\r\n    \"password\" : \"qwertyuiop\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
 				}
 			]
 		},
