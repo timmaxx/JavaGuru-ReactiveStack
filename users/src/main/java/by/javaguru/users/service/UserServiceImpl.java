@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
@@ -25,12 +26,13 @@ public class UserServiceImpl implements UserService {
     public Mono<UserDto> createUser(Mono<CreateUserDto> createUserDtoMono) {
 
         return createUserDtoMono
-                //  This approach will be slow (blocking stream processing) due to the slowness of encryption.
-                .map(dto -> {
-                    dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-                    return dto;
-                })
-                .mapNotNull(userMapper::createUserDtoToUserEntity)
+                .map(userMapper::createUserDtoToUserEntity)
+                //  Можно сделать так,
+                //  но parallel предназначен больше для коротких неблокирующих операций.
+                //  А encode (ниже) это тяжёлая операция.
+                .publishOn(Schedulers.parallel())
+                //  И тогда, всё, что ниже, пойдёт в отдельном пуле потоков
+                .doOnNext(e -> e.setPassword(passwordEncoder.encode(e.getPassword())))
                 .flatMap(userRepository::save)
                 .mapNotNull(userMapper::userEntityToUserDto);
     }
