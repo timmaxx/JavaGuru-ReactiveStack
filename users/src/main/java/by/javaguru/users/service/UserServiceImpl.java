@@ -27,10 +27,8 @@ public class UserServiceImpl implements UserService {
 
         return createUserDtoMono
                 .map(userMapper::createUserDtoToUserEntity)
-                //  You could do it this way,
-                //  but `parallel` is intended more for short, non-blocking operations.
-                //  Whereas `encode` (below) is a heavy operation.
-                .publishOn(Schedulers.parallel())
+                //  We use a thread pool for blocking and heavy operations.
+                .publishOn(Schedulers.boundedElastic())
                 //  And then, everything that follows will run in a separate thread pool.
                 .doOnNext(e -> e.setPassword(passwordEncoder.encode(e.getPassword())))
                 .flatMap(userRepository::save)
