@@ -24,15 +24,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Mono<UserDto> createUser(Mono<CreateUserDto> createUserDtoMono) {
-
         return createUserDtoMono
                 .map(userMapper::createUserDtoToUserEntity)
-                //  We use a thread pool for blocking and heavy operations.
                 .publishOn(Schedulers.boundedElastic())
-                //  And then, everything that follows will run in a separate thread pool.
                 .doOnNext(e -> e.setPassword(passwordEncoder.encode(e.getPassword())))
                 .flatMap(userRepository::save)
-                .mapNotNull(userMapper::userEntityToUserDto);
+                .map(userMapper::userEntityToUserDto);
     }
 
     @Override
