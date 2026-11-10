@@ -19,9 +19,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public Mono<ResponseEntity<Object>> login(@RequestBody Mono<AuthenticationRequest> authenticationRequestMono) {
         return authenticationRequestMono
-                .flatMap(authenticationRequest ->
-                        authenticationService.authenticate(authenticationRequest.getEmail(),
-                                authenticationRequest.getPassword()))
+                .flatMap(authenticationService::authenticate)
                 .map(map -> ResponseEntity.ok()
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + map.get("token"))
                         .header("UserId", map.get("userId"))
