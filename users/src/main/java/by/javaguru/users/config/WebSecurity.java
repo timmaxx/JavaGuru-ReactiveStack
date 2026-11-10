@@ -18,8 +18,8 @@ public class WebSecurity {
     SecurityWebFilterChain httpSecurityFilterChain(ServerHttpSecurity http) {
         return http.authorizeExchange(
                         exchange -> exchange
-                                .pathMatchers(HttpMethod.POST, "/users").permitAll()
-                                .pathMatchers(HttpMethod.POST, "/login").permitAll()
+                                //  A little less code.
+                                .pathMatchers(HttpMethod.POST, "/users", "/login").permitAll()
                                 .anyExchange().authenticated())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .build();
