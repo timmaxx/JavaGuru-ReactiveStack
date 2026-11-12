@@ -4,6 +4,7 @@ import by.javaguru.users.data.CustomUserDetails;
 import by.javaguru.users.data.UserRepository;
 import by.javaguru.users.service.dto.CreateUserDto;
 import by.javaguru.users.service.dto.UserDto;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Mono<UserDetails> findByUsername(String username) {
+    public @NonNull Mono<UserDetails> findByUsername(@NonNull String username) {
         return userRepository.findByEmail(username)
                 .map(CustomUserDetails::new);   //  Wrap UserEntity in CustomUserDetails
     }

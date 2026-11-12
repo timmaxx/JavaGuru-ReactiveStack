@@ -1,5 +1,6 @@
 package by.javaguru.users.data;
 
+import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
@@ -8,7 +9,7 @@ import java.util.Collections;
 public record CustomUserDetails(UserEntity userEntity) implements UserDetails {
 
     @Override
-    public String getUsername() {
+    public @NonNull String getUsername() {
         return userEntity.getEmail();
     }
 
@@ -18,7 +19,7 @@ public record CustomUserDetails(UserEntity userEntity) implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
         //  There are no roles yet, so we will return an empty list.
         return Collections.emptyList();
     }
