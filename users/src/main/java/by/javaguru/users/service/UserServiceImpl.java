@@ -1,12 +1,12 @@
 package by.javaguru.users.service;
 
+import by.javaguru.users.data.CustomUserDetails;
 import by.javaguru.users.data.UserRepository;
 import by.javaguru.users.service.dto.CreateUserDto;
 import by.javaguru.users.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -50,17 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    //  Warning:(53, 30) Not annotated method overrides method annotated with @NullMarked
-    public Mono<UserDetails> findByUsername(
-            //  Warning:(53, 52) Not annotated parameter overrides @NullMarked parameter
-            String username) {
+    public Mono<UserDetails> findByUsername(String username) {
         return userRepository.findByEmail(username)
-                .map(userEntity -> User
-                        .withUsername(userEntity.getEmail())
-                        .password(userEntity.getPassword())
-                        //  There are no roles yet, so we will return an empty list.
-                        .authorities(new ArrayList<>())
-                        .build());
+                .map(CustomUserDetails::new);   //  Wrap UserEntity in CustomUserDetails
     }
 
 }

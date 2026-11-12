@@ -1,7 +1,7 @@
 package by.javaguru.users.service;
 
+import by.javaguru.users.data.CustomUserDetails;
 import by.javaguru.users.data.UserEntity;
-import by.javaguru.users.data.UserRepository;
 import by.javaguru.users.service.dto.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -17,21 +17,23 @@ import java.util.Map;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final ReactiveAuthenticationManager reactiveAuthenticationManager;
-    private final UserRepository userRepository;
 
     @Override
     public Mono<Map<String, String>> authenticate(AuthenticationRequest authenticationRequest) {
         return reactiveAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()))
-                //  If the operation succeeds, ignore its result and return a new Mono.
-                //  You could also use `map` instead of `then`.
                 //  This way, you can retrieve everything you need from the authentication object,
                 //  avoiding a second trip to the database.
-                .then(getUserDetails(authenticationRequest.getEmail()))
-                .map(this::createAuthResponse);
-    }
+                .map(auth -> {
+                    Object principal = auth.getPrincipal();
+                    if (principal == null) {
+                        throw new NullPointerException("principal is null");
+                    }
+                    if (!(principal instanceof CustomUserDetails(UserEntity userEntity))) {
+                        throw new IllegalStateException("Unexpected principal type: " + principal.getClass());
+                    }
 
-    private Mono<UserEntity> getUserDetails(String username) {
-        return userRepository.findByEmail(username);
+                    return createAuthResponse(userEntity);
+                });
     }
 
     private Map<String, String> createAuthResponse(UserEntity user) {
