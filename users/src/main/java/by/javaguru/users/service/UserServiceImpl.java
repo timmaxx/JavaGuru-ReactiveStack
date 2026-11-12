@@ -50,15 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    //  Warning:(53, 30) Not annotated method overrides method annotated with @NullMarked
-    public Mono<UserDetails> findByUsername(
-            //  Warning:(53, 52) Not annotated parameter overrides @NullMarked parameter
-            String username) {
+    public Mono<UserDetails> findByUsername(String username) {
         return userRepository.findByEmail(username)
                 .map(userEntity -> User
                         .withUsername(userEntity.getEmail())
                         .password(userEntity.getPassword())
-                        //  There are no roles yet, so we will return an empty list.
                         .authorities(new ArrayList<>())
                         .build());
     }

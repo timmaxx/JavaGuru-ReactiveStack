@@ -19,13 +19,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
 
     @Override
-    public Mono<Map<String, String>> authenticate(
-            String username, String password) {
+    public Mono<Map<String, String>> authenticate(String username, String password) {
         return reactiveAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password))
-                //  If the operation succeeds, ignore its result and return a new Mono.
-                //  You could also use `map` instead of `then`.
-                //  This way, you can retrieve everything you need from the authentication object,
-                //  avoiding a second trip to the database.
                 .then(getUserDetails(username))
                 .map(this::createAuthResponse);
     }

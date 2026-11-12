@@ -8,8 +8,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-//  We are integrating our service with SpringSecurityWebFlux.
-//  And now the security component can call our UserService to retrieve a user by userName.
 public interface UserService extends ReactiveUserDetailsService {
 
     Mono<UserDto> createUser(Mono<CreateUserDto> createUserDtoMono);

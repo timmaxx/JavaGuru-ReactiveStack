@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-//  Exclude password for non-logging
 @ToString(exclude = "password")
 @AllArgsConstructor
 public class AuthenticationRequest {
