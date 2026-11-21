@@ -23,7 +23,6 @@ public class WebSecurity {
                                                    ReactiveAuthenticationManager authenticationManager,
                                                    JwtService jwtService) {
 
-        //   Registering the filter
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtService);
 
         return http.authorizeExchange(
@@ -33,18 +32,8 @@ public class WebSecurity {
                                 .anyExchange().authenticated())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
-                //  In Lesson 2.12, it was already necessary to register a ReactiveAuthenticationManager.
-                //  Without this, only the login and create operations would work,
-                //  while the getUser and getUsers methods would fail!
                 .authenticationManager(authenticationManager)
-                //  Add a filter to the authorization phase (there can be various filter chains).
                 .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                //  Specify what should be stored in the security context between requests, and how.
-                //  By default, this would be WebSessionServerSecurityContextRepository, which means data is stored in a session.
-                //  Using NoOpServerSecurityContextRepository.getInstance() indicates that nothing should be stored between requests.
-                //  This means each request must be authenticated independently —
-                //  which is exactly what we will achieve using a JWT token included in the header of every request
-                //  that requires authentication (i.e., for the getUser and getUsers methods).
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .build();
     }

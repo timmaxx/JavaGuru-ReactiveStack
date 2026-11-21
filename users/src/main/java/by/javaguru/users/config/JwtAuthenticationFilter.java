@@ -20,20 +20,11 @@ public class JwtAuthenticationFilter implements WebFilter {
 
     private final JwtService jwtService;
 
-    //  To ensure our stack is non-blocking and asynchronous, all filters in the filter chain must be asynchronous.
-    //  The filter will be invoked for every request that requires authentication.
-    //  This is where we need to implement the logic for validating the JWT token.
     @Override
-    public Mono<Void> filter(
-            //  The request and response are here.
-            ServerWebExchange exchange,
-            //  Filter chain.
-            WebFilterChain chain) {
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String token = extractToken(exchange);
 
         if (token == null) {
-            //  When our filter’s turn comes up in the queue, we simply say "pass it on" — without any logic involved.
-            //  In other words, we do nothing and pass it along to the next filter.
             return chain.filter(exchange);
         }
 
@@ -52,7 +43,6 @@ public class JwtAuthenticationFilter implements WebFilter {
                             .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
                 });
     }
-
 
     private Mono<? extends Void> handleInvalidToken(ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
