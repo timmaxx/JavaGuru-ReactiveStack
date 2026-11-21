@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,7 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public Mono<ResponseEntity <UserDto>> getUser(@PathVariable UUID userId) {
+    //  This version is provided for the sake of example only.
+    @PostAuthorize("returnObject.body != null and (returnObject.body.id.toString.equals(authentication.principal))")
+    public Mono<ResponseEntity<UserDto>> getUser(@PathVariable UUID userId) {
 
         return userService.getUserById(userId)
                 .map(userDto -> ResponseEntity.status(HttpStatus.OK).body(userDto))
