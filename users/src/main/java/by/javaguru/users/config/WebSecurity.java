@@ -17,7 +17,6 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 
 @Configuration
 @EnableWebFluxSecurity
-//  To enable the use of @PreAuthorize and @PostAuthorize annotations.
 @EnableReactiveMethodSecurity
 public class WebSecurity {
 
