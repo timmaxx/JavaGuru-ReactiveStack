@@ -1,2 +1,31 @@
 Here you can read a JWT token and, by providing the private key, verify the token's signature.
 https://www.jwt.io/
+
+-------------------------------------------------------------------------------
+HW 2.15.x.x
+
+Добавить роли в JWT и проверку ролей
+
+Требуется:
+Добавить в JWT claim roles
+При логине помещать роли пользователя в токен
+
+В JwtAuthenticationFilter:
+- извлекать роли из токена
+- формировать GrantedAuthority
+Использовать @PreAuthorize в контроллере
+
+Пример требований:
+GET /users → доступен только ADMIN
+GET /users/{id} → доступен ADMIN и USER
+DELETE /users/{id} → только ADMIN
+
+Подсказки
+В фильтре:
+
+List<String> roles = jwtService.extractRoles(token);
+List<GrantedAuthority> authorities =
+        roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .toList();
+-------------------------------------------------------------------------------
