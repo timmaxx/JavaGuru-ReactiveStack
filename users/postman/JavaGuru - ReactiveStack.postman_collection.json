@@ -699,6 +699,24 @@
 					"body": null
 				}
 			]
+		},
+		{
+			"name": "Stream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/stream",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"stream"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
