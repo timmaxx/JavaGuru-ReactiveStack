@@ -55,7 +55,9 @@ public class JwtServiceImpl implements JwtService {
         return Optional.ofNullable(environment.getProperty("token.secret"))
                 .map(String::getBytes)
                 .map(Keys::hmacShaKeyFor)
-                .orElseThrow(() -> new IllegalArgumentException("token.secret must be configured in the application properties"));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "token.secret must be configured in the application properties"
+                ));
     }
 
 }

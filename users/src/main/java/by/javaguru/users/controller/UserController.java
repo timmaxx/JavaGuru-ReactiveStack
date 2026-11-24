@@ -35,7 +35,6 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @PreAuthorize("authentication.principal.equals(#userId.toString()) or hasRole('ROLE_ADMIN')")
-//    @PostAuthorize("returnObject.body != null and (returnObject.body.id.toString.equals(authentication.principal))")
     public Mono<ResponseEntity<UserDto>> getUser(@PathVariable UUID userId) {
 
         return userService.getUserById(userId)

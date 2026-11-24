@@ -29,15 +29,18 @@ public class JwtAuthenticationFilter implements WebFilter {
         }
 
         return validateToken(token)
-                .flatMap(isValid -> isValid ? authenticateAndContinue(token, exchange, chain)
+                .flatMap(isValid -> isValid
+                        ? authenticateAndContinue(token, exchange, chain)
                         : handleInvalidToken(exchange));
     }
 
-    private Mono<? extends Void> authenticateAndContinue(String token, ServerWebExchange exchange, WebFilterChain chain) {
+    private Mono<? extends Void> authenticateAndContinue(String token,
+                                                         ServerWebExchange exchange,
+                                                         WebFilterChain chain) {
         return Mono.just(jwtService.extractTokenSubject(token))
                 .flatMap(subject -> {
-                    Authentication auth = new UsernamePasswordAuthenticationToken(subject, null,
-                            Collections.emptyList());
+                    Authentication auth = new UsernamePasswordAuthenticationToken(
+                            subject, null, Collections.emptyList());
 
                     return chain.filter(exchange)
                             .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
@@ -62,4 +65,5 @@ public class JwtAuthenticationFilter implements WebFilter {
     private Mono<Boolean> validateToken(String token) {
         return jwtService.validateJwt(token);
     }
+
 }
