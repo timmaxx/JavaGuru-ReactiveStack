@@ -34,7 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("authentication.principal.equals(#userId.toString()) or hasRole('ADMIN')")
+    // #userId связывает параметр метода с аргументом бина @authz
+    @PreAuthorize("@authz.canManageUser(#userId)")
     public Mono<ResponseEntity<UserDto>> getUser(@PathVariable UUID userId) {
 
         return userService.getUserById(userId)
