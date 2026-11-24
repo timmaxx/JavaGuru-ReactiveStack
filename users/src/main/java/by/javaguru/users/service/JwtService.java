@@ -8,5 +8,6 @@ public interface JwtService {
 
     Mono<Boolean> validateJwt(String token);
 
-    Object extractTokenSubject(String token);
+    String extractTokenSubject(String token);
+
 }

@@ -39,7 +39,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public Object extractTokenSubject(String token) {
+    public String extractTokenSubject(String token) {
         return parseToken(token).getSubject();
     }
 
