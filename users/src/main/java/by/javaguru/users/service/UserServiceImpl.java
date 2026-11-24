@@ -6,7 +6,6 @@ import by.javaguru.users.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -29,6 +27,11 @@ public class UserServiceImpl implements UserService {
     public Mono<UserDto> createUser(Mono<CreateUserDto> createUserDtoMono) {
         return createUserDtoMono
                 .map(userMapper::createUserDtoToUserEntity)
+                .doOnNext(userEntity -> {
+                    if (userEntity.getRole() == null) {
+                        userEntity.setRole("USER");
+                    }
+                })
                 .publishOn(Schedulers.boundedElastic())
                 .doOnNext(e -> e.setPassword(passwordEncoder.encode(e.getPassword())))
                 .flatMap(userRepository::save)
@@ -52,11 +55,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return userRepository.findByEmail(username)
-                .map(userEntity -> User
-                        .withUsername(userEntity.getEmail())
-                        .password(userEntity.getPassword())
-                        .authorities(new ArrayList<>())
-                        .build());
+                .map(userEntity -> {
+                    String role = userEntity.getRole() == null
+                            ? "USER"
+                            : userEntity.getRole();
+
+                    return org.springframework.security.core.userdetails.User
+                            .withUsername(userEntity.getEmail())
+                            .password(userEntity.getPassword())
+                            // roles(...) автоматически добавляет префикс ROLE_
+                            .roles(role)
+                            .build();
+                });
     }
 
 }

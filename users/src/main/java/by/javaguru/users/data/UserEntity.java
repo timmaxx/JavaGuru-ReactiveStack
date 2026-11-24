@@ -25,4 +25,7 @@ public class UserEntity {
 
     private String password;
 
+    // NEW
+    private String role; // "USER" | "ADMIN"
+
 }

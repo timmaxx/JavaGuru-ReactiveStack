@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,7 +35,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private Map<String, String> createAuthResponse(UserEntity user) {
         Map<String, String> result = new HashMap<>();
         result.put("userId", user.getId().toString());
-        result.put("token", jwtService.generateJwt(user.getId().toString()));
+        List<String> roles = List.of(
+                user.getRole() == null
+                        ? "USER"
+                        : user.getRole()
+        );
+        result.put("token", jwtService.generateJwt(user.getId().toString(), roles));
         return result;
     }
 

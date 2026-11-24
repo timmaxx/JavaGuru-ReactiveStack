@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("authentication.principal.equals(#userId.toString()) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("authentication.principal.equals(#userId.toString()) or hasRole('ADMIN')")
     public Mono<ResponseEntity<UserDto>> getUser(@PathVariable UUID userId) {
 
         return userService.getUserById(userId)
@@ -43,6 +43,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Flux<UserDto> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "limit", defaultValue = "50") int limit) {
 
