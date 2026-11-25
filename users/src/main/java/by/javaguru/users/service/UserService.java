@@ -16,4 +16,6 @@ public interface UserService extends ReactiveUserDetailsService {
 
     Flux<UserDto> findAll(int page, int limit);
 
+    Flux<UserDto> streamUser();
+
 }
