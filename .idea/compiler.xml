@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ReactiveFirstProject" />
         <module name="JSWebClient" />
+        <module name="photo-albums" />
       </profile>
       <profile name="Annotation profile for users" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="JSWebClient" options="-parameters" />
       <module name="ReactiveFirstProject" options="-parameters" />
+      <module name="photo-albums" options="-parameters" />
       <module name="users" options="-parameters" />
     </option>
   </component>
