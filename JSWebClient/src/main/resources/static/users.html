@@ -4,29 +4,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-        /* Подпишемся на push-уведомления у нашего сервера. */
         const eventSource = new EventSource("http://localhost:8080/users/stream");
-
-        /* Когда соединение открывается. */
         eventSource.onopen = (event) => {
             console.log("Connection opened");
         };
 
-        /* В случае ошибки, чтобы наш eventSource не пытался постоянно переоткрыть соединение, мы просто закрываем его. */
         eventSource.onerror = (event) => {
             console.error("EventSource failed");
             eventSource.close();
         };
 
-        /* Когда поступает событие. */
         eventSource.onmessage = (event) => {
-            /* Из события вытаскиваем данные. Это userDto. */
             const userDto = JSON.parse(event.data);
-
-            /* Создаём переменную userDiv (то, что будет выведено в теле html). */
             const userDiv = document.createElement("div");
-
-            /* Заполняем эту переменную. */
             userDiv.innerHTML = `
             <p>ID: ${userDto.id}</p>
             <p>Имя: ${userDto.firstName}</p>
@@ -35,16 +25,14 @@
             <hr>
             `;
 
-            /* Создадим и свяжем переменную userInfoDiv из JS c тэгом userInfo html. */
             const userInfoDiv = document.getElementById("userInfo");
-            /* И запишем в связанную переменную уже заполненную userDiv. */
             userInfoDiv.appendChild(userDiv);
         };
 
     </script>
 </head>
 <body>
-<!-- Здесь будем выводить информацию о созданных пользователях. -->
+
 <div id="userInfo"></div>
 
 </body>

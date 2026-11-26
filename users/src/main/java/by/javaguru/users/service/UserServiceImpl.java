@@ -25,9 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    //  Вместо такого:
-    //  usersSink = Sinks.many().multicast().onBackpressureBuffer();
-    //  Определим это в SinkConfig.
     private final Sinks.Many<UserDto> usersSink;
 
     @Override
@@ -38,9 +35,6 @@ public class UserServiceImpl implements UserService {
                 .doOnNext(e -> e.setPassword(passwordEncoder.encode(e.getPassword())))
                 .flatMap(userRepository::save)
                 .map(userMapper::userEntityToUserDto)
-                //  Each successfully created userDto will be passed to usersSink.tryEmitNext(),
-                //  which will generate an onNext signal. This will result in the addition of elements to the Flux
-                //  emitted by UserController :: Flux<UserDto> streamUsers().
                 .doOnSuccess(usersSink::tryEmitNext);
     }
 
@@ -60,15 +54,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Flux<UserDto> streamUser() {
-        return usersSink
-                //  Create a cold Flux (i.e., each new subscriber creates a new subscription).
-                .asFlux()
-                //  Now create a hot Flux (i.e., everyone connects to the same subscription).
+        return usersSink.asFlux()
                 .publish()
-                //  Automatically connect to the source once N subscribers have connected.
-                //  In our case, as soon as at least one subscriber appears, the ConnectableFlux connects to the source,
-                //  and data begins to flow. In other words, the Sink starts emitting data, while any subsequent subscribers
-                //  connect to the already active stream and will receive only new events.
                 .autoConnect(1);
     }
 
