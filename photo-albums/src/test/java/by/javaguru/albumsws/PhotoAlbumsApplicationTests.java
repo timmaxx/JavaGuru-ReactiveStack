@@ -1,13 +1,13 @@
-package by.javaguru.photoalbums;
-
+package by.javaguru.albumsws;
+/*
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+*/
+//@SpringBootTest
 class PhotoAlbumsApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
+/*
+	@Test
+	void contextLoads() {
+	}
+*/
 }

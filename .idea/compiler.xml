@@ -11,7 +11,7 @@
         <module name="JSWebClient" />
         <module name="photo-albums" />
       </profile>
-      <profile name="Annotation profile for users" enabled="true">
+      <profile name="Annotation profile for photo-albums" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -20,6 +20,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
         </processorPath>
         <module name="users" />
+        <module name="photo-albums" />
       </profile>
     </annotationProcessing>
   </component>
